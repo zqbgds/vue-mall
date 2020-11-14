@@ -1,0 +1,55 @@
+@import "./normalize.css";
+
+/* :root 这个伪类是用于获取跟元素的，在html页面中就是指html标签了 */
+:root{
+    /*定义下面几个变量*/
+    --color-text: #666;
+    --color-high-text: #ff5777;
+    --color-tint: #ff8198; /*背景颜色*/
+    --color-background: #fff;
+    --font-size: 14px;
+    --line-height: 1.5;
+}
+
+/*将所有的margin和padding都设置为零*/
+*,
+*::before,
+*::after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "Helvetica Neue","Microsoft YaHei","微软雅黑","Arial";
+    user-select: none; /* 禁止用户鼠标在页面上选中文字或图片 */
+    -webkit-tap-highlight-color: transparent; /* webkit是苹果浏览器引擎，tap是点击，highlight背景高亮，color颜色，颜色用数值调节 */
+    color: var(--color-text); /* 使用前面定义的变量 */
+    width: 100vw;
+}
+
+a{
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+.clear-fix::after{
+    clear: both;
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+.clear-fix{
+    zoom: 1;
+}
+
+.left{
+    float: left;
+}
+
+.right{
+    float: right;
+}
