@@ -6,6 +6,7 @@
     <home-swiper :banners="banners"></home-swiper>
     <recommend-view :recommends="recommends"></recommend-view>
     <feature-view></feature-view>
+    <tab-control :titles="['流行','新款','精选']" class="tab-control"></tab-control>
     <ul>
       <li>列表1</li>
       <li>列表2</li>
@@ -63,6 +64,8 @@
 
 <script>
   import NavBar from "components/common/navbar/NavBar"
+  import TabControl from "components/content/tabControl/TabControl"
+
   import HomeSwiper from './childComps/HomeSwiper'
   import RecommendView from './childComps/RecommendView'
   import FeatureView from "./childComps/FeatureView";
@@ -73,6 +76,7 @@
     name: "Home",
     components: {
       NavBar,
+      TabControl,
       HomeSwiper,
       RecommendView,
       FeatureView
@@ -108,5 +112,10 @@
     right: 0;
     top: 0;
     z-index: 9;
+  }
+  .tab-control{
+    position: sticky;
+    top: 44px;
+    background-color: #fff;
   }
 </style>
