@@ -70,7 +70,7 @@
   import RecommendView from './childComps/RecommendView'
   import FeatureView from "./childComps/FeatureView";
 
-  import { getHomeMultidata } from "network/home";
+  import { getHomeMultidata, getHomeGoods } from "network/home";
 
   export default {
     name: "Home",
@@ -84,17 +84,39 @@
     data(){
       return {
         banners: [],
-        recommends: []
+        recommends: [],
+        goods: {
+          'pop': {page: 0, list: []},
+          'new': {page: 0, list: []},
+          'sell': {page: 0, list: []}
+        }
       }
     },
     created() {
       // 请求多个数据，因为后端提供的数据有时候都放在一起的
-      getHomeMultidata().then(res => {
-        // console.log(res)
-        this.banners = res.data.banner.list
-        this.recommends = res.data.recommend.list
+      this.getHomeMultidata()
+      // 具体内容封装到methods中去了
 
-      })
+      // 请求商品数据
+      this.getHomeGoods('pop')
+      this.getHomeGoods('new')
+      this.getHomeGoods('sell')
+    },
+    methods: {
+      getHomeMultidata(){
+        getHomeMultidata().then(res => {
+          // console.log(res)
+          this.banners = res.data.banner.list
+          this.recommends = res.data.recommend.list
+        })
+      },
+      getHomeGoods(type){
+        const page = this.goods[type].page + 1
+        getHomeGoods(type, page).then(res => {
+          this.goods[type].list.push(...res.data.list)
+          this.goods[type].page += 1
+        })
+      }
     }
   }
 </script>
