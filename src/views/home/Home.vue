@@ -7,6 +7,7 @@
     <recommend-view :recommends="recommends"></recommend-view>
     <feature-view></feature-view>
     <tab-control :titles="['流行','新款','精选']" class="tab-control"></tab-control>
+    <goods-list :goods="goods.pop.list"></goods-list>
     <ul>
       <li>列表1</li>
       <li>列表2</li>
@@ -65,6 +66,7 @@
 <script>
   import NavBar from "components/common/navbar/NavBar"
   import TabControl from "components/content/tabControl/TabControl"
+  import GoodsList from "components/content/goods/GoodsList"
 
   import HomeSwiper from './childComps/HomeSwiper'
   import RecommendView from './childComps/RecommendView'
@@ -77,6 +79,7 @@
     components: {
       NavBar,
       TabControl,
+      GoodsList,
       HomeSwiper,
       RecommendView,
       FeatureView
@@ -139,5 +142,6 @@
     position: sticky;
     top: 44px;
     background-color: #fff;
+    z-index: 9;
   }
 </style>
