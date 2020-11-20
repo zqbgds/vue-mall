@@ -3,7 +3,7 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <scroll class="content">
+    <scroll class="content" ref="scroll">
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
@@ -11,6 +11,7 @@
                    @tabClick="tabClick"></tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
+    <back-top @click.native="backClick"></back-top>
   </div>
 </template>
 
@@ -19,6 +20,7 @@
   import Scroll from "components/common/scroll/Scroll";
   import TabControl from "components/content/tabControl/TabControl"
   import GoodsList from "components/content/goods/GoodsList"
+  import BackTop from "components/content/backTop/BackTop";
 
   import HomeSwiper from './childComps/HomeSwiper'
   import RecommendView from './childComps/RecommendView'
@@ -31,6 +33,7 @@
     components: {
       NavBar,
       Scroll,
+      BackTop,
       TabControl,
       GoodsList,
       HomeSwiper,
@@ -78,6 +81,11 @@
             this.currentType = 'sell'
             break
         }
+      },
+      backClick(){
+        // this.$refs.scroll.scroll.scrollTo(0,0,500)
+        // 上面这种写法看起来会觉得混乱，这里我们将scrollTo封装到组件的方法中
+        this.$refs.scroll.scrollTo(0,0)
       },
       // 网络请求相关方法
       getHomeMultidata(){

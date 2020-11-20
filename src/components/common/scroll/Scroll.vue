@@ -21,6 +21,11 @@
         pullUpLoad: true,
         click: true
       })
+    },
+    methods: {
+      scrollTo(x, y, time = 500){
+        return this.scroll.scrollTo(x, y, time = 500)
+      }
     }
   }
 </script>
