@@ -106,6 +106,7 @@
     </div>
     <div class="better">
       <div class="better-content">
+        <button @click="btnClick">按钮</button>
         <ul>
           <li>分类列表1</li>
           <li>分类列表2</li>
@@ -218,9 +219,23 @@
   import BScroll from 'better-scroll'
   export default {
     name: "Category",
+    methods: {
+      btnClick(){
+        // 测试了一下默认情况下不设置参数click:true也是可以监听点击的。而且1.x的官方文档也说默认是不可以的
+        console.log(123)
+      }
+    },
     mounted() {
-      new BScroll(document.querySelector('.better'),{
-
+      const bscroll = new BScroll(document.querySelector('.better'),{
+        probeType: 3,
+        pullUpLoad: true
+      })
+      bscroll.on('scroll', function(position){
+        console.log(position)
+      })
+      bscroll.on('pullingUp', function(){
+        console.log('已加载到最后')
+        bscroll.finishPullUp()
       })
     }
   }
