@@ -3,7 +3,7 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <scroll class="content" ref="scroll">
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
@@ -11,7 +11,7 @@
                    @tabClick="tabClick"></tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
-    <back-top @click.native="backClick"></back-top>
+    <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
   </div>
 </template>
 
@@ -49,7 +49,8 @@
           'new': {page: 0, list: []},
           'sell': {page: 0, list: []}
         },
-        currentType: 'pop'
+        currentType: 'pop',
+        isShowBackTop: false
       }
     },
     computed: {
@@ -86,6 +87,10 @@
         // this.$refs.scroll.scroll.scrollTo(0,0,500)
         // 上面这种写法看起来会觉得混乱，这里我们将scrollTo封装到组件的方法中
         this.$refs.scroll.scrollTo(0,0)
+      },
+      contentScroll(position){
+        // 注意这里的位置的值都是负值
+        this.isShowBackTop = - position.y > 600
       },
       // 网络请求相关方法
       getHomeMultidata(){
