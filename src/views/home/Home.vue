@@ -68,16 +68,27 @@
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
-      // 监听item中图片加载完成，不能写在created中，没有挂载可能会报错
-      this.$bus.$on('itemImageLoad', () => {
-        this.$refs.scroll.scroll && this.$refs.scroll.refresh()
-      })
+
     },
     mounted() {
-
+      // 监听item中图片加载完成，不能写在created中，没有挂载可能会报错
+      const refresh = this.debounce(this.$refs.scroll.refresh, 100)
+      this.$bus.$on('itemImageLoad', () => {
+        // this.$refs.scroll.scroll && this.$refs.scroll.refresh()
+        refresh()
+      })
     },
     methods: {
       // 事件监听相关方法
+      debounce(func, delay){
+        let timer = null
+        return function(...args){
+          if(timer) clearTimeout(timer)
+          timer = setTimeout(() => {
+            func.apply(this, args)
+          }, delay)
+        }
+      },
       tabClick(index){
         switch (index) {
           case 0:
