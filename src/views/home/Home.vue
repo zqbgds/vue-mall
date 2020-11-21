@@ -68,11 +68,13 @@
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
-
-      // 监听item中图片加载完成
+      // 监听item中图片加载完成，不能写在created中，没有挂载可能会报错
       this.$bus.$on('itemImageLoad', () => {
-        this.$refs.scroll.refresh()
+        this.$refs.scroll.scroll && this.$refs.scroll.refresh()
       })
+    },
+    mounted() {
+
     },
     methods: {
       // 事件监听相关方法

@@ -39,13 +39,13 @@
     },
     methods: {
       scrollTo(x, y, time = 500){
-        return this.scroll.scrollTo(x, y, time = 500)
+        this.scroll && this.scroll.scrollTo(x, y, time = 500)
       },
       finishPullUp(){
-        this.scroll.finishPullUp()
+        this.scroll && this.scroll.finishPullUp()
       },
       refresh(){
-        this.scroll.refresh()
+        this.scroll && this.scroll.refresh()
       }
     }
   }
