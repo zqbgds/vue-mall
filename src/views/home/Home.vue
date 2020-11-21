@@ -3,12 +3,14 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
+    <tab-control :titles="['流行','新款','精选']" ref="tabControl1"
+                 @tabClick="tabClick" class="tab-control" v-show="isTabFixed"></tab-control>
     <scroll class="content" ref="scroll" :probe-type="3" :pull-up-load="true"
             @scroll="contentScroll" @pullingUp="loadMore">
-      <home-swiper :banners="banners"></home-swiper>
+      <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
-      <tab-control :titles="['流行','新款','精选']" ref="tabControl"
+      <tab-control :titles="['流行','新款','精选']" ref="tabControl2"
                    @tabClick="tabClick"></tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
@@ -53,7 +55,8 @@
         },
         currentType: 'pop',
         isShowBackTop: false,
-        tabOffsetTop: 0
+        tabOffsetTop: 0,
+        isTabFixed: false
       }
     },
     computed: {
@@ -100,6 +103,8 @@
             this.currentType = 'sell'
             break
         }
+        this.$refs.tabControl1.currentIndex = index
+        this.$refs.tabControl2.currentIndex = index
       },
       backClick(){
         // this.$refs.scroll.scroll.scrollTo(0,0,500)
@@ -108,10 +113,16 @@
       },
       contentScroll(position){
         // 注意这里的位置的值都是负值
-        this.isShowBackTop = - position.y > 600
+        this.isShowBackTop = (- position.y) > 600
+
+        // 决定TabControl是否吸顶（position: fixed）
+        this.isTabFixed = (- position.y) > this.tabOffsetTop
       },
       loadMore(){
         this.getHomeGoods(this.currentType)
+      },
+      swiperImageLoad(){
+        this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
       },
       // 网络请求相关方法
       getHomeMultidata(){
@@ -142,11 +153,12 @@
   .home-nav{
     background-color: var(--color-tint);
     color: #fff;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    z-index: 9;
+    /*非原生效果 没必要再定位了*/
+    /*position: fixed;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*top: 0;*/
+    /*z-index: 9;*/
   }
 
   .content{
@@ -164,4 +176,9 @@
     margin-top: 67px;
   }
   */
+  .tab-control{
+    position: relative;
+    z-index: 9;
+    background-color: #fff;
+  }
 </style>
