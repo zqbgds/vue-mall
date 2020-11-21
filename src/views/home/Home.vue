@@ -56,7 +56,8 @@
         currentType: 'pop',
         isShowBackTop: false,
         tabOffsetTop: 0,
-        isTabFixed: false
+        isTabFixed: false,
+        saveY: 0
       }
     },
     computed: {
@@ -88,6 +89,19 @@
         // this.$refs.scroll.scroll && this.$refs.scroll.refresh()
         refresh()
       })
+    },
+    // destroyed() {
+    //   console.log('销毁')
+    // },
+    activated(){
+      // 先刷新一下然后在滚动，这是视频弹幕里网友提示的，但是这样回去之后有时会有一个动画效果
+      this.$refs.scroll.refresh()
+      // 老师的课程里面是 先回到原来位置 后刷新
+      this.$refs.scroll.scrollTo(0, this.saveY, 0)
+
+    },
+    deactivated(){
+      this.saveY = this.$refs.scroll.getScrollY()
     },
     methods: {
       // 事件监听相关方法
