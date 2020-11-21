@@ -8,7 +8,7 @@
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
-      <tab-control :titles="['流行','新款','精选']" class="tab-control"
+      <tab-control :titles="['流行','新款','精选']" ref="tabControl"
                    @tabClick="tabClick"></tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
@@ -52,7 +52,8 @@
           'sell': {page: 0, list: []}
         },
         currentType: 'pop',
-        isShowBackTop: false
+        isShowBackTop: false,
+        tabOffsetTop: 0
       }
     },
     computed: {
@@ -72,6 +73,12 @@
 
     },
     mounted() {
+      // 获取TabControl的offsetTop
+      // 这里没有办法直接获取组件的offsetTop
+      // 所有的组件都有一个元素$el: 用于获取组件中的元素
+      // console.log(this.$refs.tabControl.$el.offsetTop)
+      // 上面这种方式，虽然是在挂载的生命周期中进行的但是图片的加载依然可能没有完成的，所以计算的高度可能还是不准确的。
+
       // 监听item中图片加载完成，不能写在created中，没有挂载可能会报错
       const refresh = debounce(this.$refs.scroll.refresh, 100)
       this.$bus.$on('itemImageLoad', () => {
@@ -141,12 +148,7 @@
     top: 0;
     z-index: 9;
   }
-  .tab-control{
-    position: sticky;
-    top: 44px;
-    background-color: #fff;
-    z-index: 9;
-  }
+
   .content{
     overflow: hidden;
     position: absolute;
