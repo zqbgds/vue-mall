@@ -1,12 +1,15 @@
 <template>
-  <div>
-    {{iid}}
-  </div>
+  <detail-nav-bar></detail-nav-bar>
 </template>
 
 <script>
+  import DetailNavBar from "./childComps/DetailNavBar";
+
   export default {
     name: "Detail",
+    components: {
+      DetailNavBar
+    },
     data(){
       return {
         iid: null
