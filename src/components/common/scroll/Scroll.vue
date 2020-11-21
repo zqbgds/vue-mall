@@ -14,10 +14,6 @@
       probeType: {
         type: Number,
         default: 0
-      },
-      pullUpLoad: {
-        type: Boolean,
-        default: false
       }
     },
     data(){
@@ -39,10 +35,7 @@
         // console.log(position)
         this.$emit('scroll', position)
       })
-      // 监听上拉加载更多
-      this.scroll.on('pullingUp', () => {
-        this.$emit('pullingUp')
-      })
+      // console.log(this.scroll.scrollerHeight)
     },
     methods: {
       scrollTo(x, y, time = 500){
@@ -50,6 +43,9 @@
       },
       finishPullUp(){
         this.scroll.finishPullUp()
+      },
+      refresh(){
+        this.scroll.refresh()
       }
     }
   }

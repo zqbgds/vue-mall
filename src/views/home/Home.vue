@@ -4,7 +4,7 @@
       <div slot="center">购物街</div>
     </nav-bar>
     <scroll class="content" ref="scroll" :probe-type="3" :pull-up-load="true"
-            @scroll="contentScroll" @pullingUp="loadMore">
+            @scroll="contentScroll">
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
@@ -68,6 +68,11 @@
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
+
+      // 监听item中图片加载完成
+      this.$bus.$on('itemImageLoad', () => {
+        this.$refs.scroll.refresh()
+      })
     },
     methods: {
       // 事件监听相关方法
@@ -93,9 +98,6 @@
         // 注意这里的位置的值都是负值
         this.isShowBackTop = - position.y > 600
       },
-      loadMore(){
-        this.getHomeGoods(this.currentType)
-      },
       // 网络请求相关方法
       getHomeMultidata(){
         getHomeMultidata().then(res => {
@@ -110,7 +112,6 @@
           this.goods[type].list.push(...res.data.list)
           this.goods[type].page += 1
 
-          this.$refs.scroll.finishPullUp()
         })
       }
     }
