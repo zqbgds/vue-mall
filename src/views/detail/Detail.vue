@@ -1,31 +1,40 @@
 <template>
   <div id="detail">
-    <detail-nav-bar></detail-nav-bar>
-    <detail-swiper :top-images="topImages"></detail-swiper>
-    <detail-base-info :goods="goods"></detail-base-info>
+    <detail-nav-bar class="detail-nav"></detail-nav-bar>
+    <scroll class="content">
+      <detail-swiper :top-images="topImages"></detail-swiper>
+      <detail-base-info :goods="goods"></detail-base-info>
+      <detail-shop-info :shop="shop"></detail-shop-info>
+    </scroll>
   </div>
 
 </template>
 
 <script>
+  import Scroll from "components/common/scroll/Scroll";
+
   import DetailNavBar from "./childComps/DetailNavBar";
   import DetailSwiper from "./childComps/DetailSwiper";
   import DetailBaseInfo from "./childComps/DetailBaseInfo";
+  import DetailShopInfo from "./childComps/DetailShopInfo";
 
-  import { getDetail, Goods } from "network/detail";
+  import { getDetail, Goods, Shop } from "network/detail";
 
   export default {
     name: "Detail",
     components: {
+      Scroll,
       DetailNavBar,
       DetailSwiper,
-      DetailBaseInfo
+      DetailBaseInfo,
+      DetailShopInfo
     },
     data(){
       return {
         iid: null,
         topImages: [],
-        goods: {}
+        goods: {},
+        shop: {}
       }
     },
     created() {
@@ -42,11 +51,28 @@
         // 获取商品信息
         this.goods = new Goods(data.itemInfo, data.columns, data.shopInfo.services)
 
+        // 获取店铺信息
+        this.shop = new Shop(data.shopInfo)
       })
     }
   }
 </script>
 
 <style scoped>
+  #detail{
+  /*  首页不需要显示TabBar我们用样式把它盖住*/
+    position: relative;
+    z-index: 9;
+    background-color: #fff;
 
+    height: 100vh;
+  }
+  .detail-nav{
+    position: relative;
+    z-index: 10;
+    background-color: #fff;
+  }
+  .content{
+    height: calc(100% - 44px);
+  }
 </style>

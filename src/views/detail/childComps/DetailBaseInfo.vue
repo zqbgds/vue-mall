@@ -30,9 +30,6 @@
           return {}
         }
       }
-    },
-    created() {
-      console.log(this.goods)
     }
   }
 </script>
